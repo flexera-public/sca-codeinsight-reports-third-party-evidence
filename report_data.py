@@ -20,9 +20,16 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
  
     projectInformation = CodeInsight_RESTAPIs.project.get_project_information.get_project_information_summary(baseURL, projectID, authToken)
     projectName = projectInformation["name"]
+    totalFiles = projectInformation["totalFiles"]
 
     fileEvidence = {} # Dict to hold evidience information for each file (claimable or not)
-  
+    filesWithCopyrights = 0
+    filesWithLicenses =  0
+    filesWithEmailURL = 0
+    filesWithSearchTerms = 0
+    filesWithExactMatches = 0
+    filesWithSourceMatches = 0
+
     # Get the evidence gathered
     projectEvidence = CodeInsight_RESTAPIs.project.get_project_evidence.get_project_evidence(baseURL, projectID, authToken)
     for evidence in projectEvidence["data"]:
@@ -34,7 +41,7 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
         copyrightEvidienceFound = evidence["copyRightMatches"]
         emailUrlEvidenceFound = evidence["emailUrlMatches"]
         licenseEvidenceFound =  evidence["licenseMatches"]
-        searchTextMatchEvidenceFound =  evidence["searchTextMatches"]
+        searchTermMatchEvidenceFound =  evidence["searchTextMatches"]
         exactFileMatchEvidenceFound =  evidence["exactFileMatches"]
         sourceMatchEvidenceFound =  evidence["sourceMatches"]
 
@@ -45,28 +52,44 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
 
         if len(copyrightEvidienceFound):
             fileEvidence[filePath]["evidence"]["copyright"] = True
+            filesWithCopyrights +=1
         if len(licenseEvidenceFound):
             fileEvidence[filePath]["evidence"]["license"] = True
+            filesWithLicenses +=1
         if len(emailUrlEvidenceFound):
             fileEvidence[filePath]["evidence"]["emailURL"] = True
-        if searchTextMatchEvidenceFound:
+            filesWithEmailURL +=1
+        if searchTermMatchEvidenceFound:
             fileEvidence[filePath]["evidence"]["searchTerm"] = True
+            filesWithSearchTerms +=1
         if exactFileMatchEvidenceFound:
             fileEvidence[filePath]["evidence"]["exactMatch"] = True
+            filesWithExactMatches +=1
         if sourceMatchEvidenceFound:
             fileEvidence[filePath]["evidence"]["sourceMatch"] = True
+            filesWithSourceMatches +=1
 
         # Is there any evidence at all?
         if not len(fileEvidence[filePath]["evidence"]):
-            # Remote the file since it has not evidence
+            # Remove the file since it has no evidence
             del fileEvidence[filePath]
 
+    # Dictionary to contain the roll up summary for files/evidence
+    evidenceSummary = {}
+    evidenceSummary["totalScannedFiles"] = totalFiles
+    evidenceSummary["copyright"] = filesWithCopyrights
+    evidenceSummary["license"] = filesWithLicenses
+    evidenceSummary["emailURL"] = filesWithEmailURL
+    evidenceSummary["searchTerm"] = filesWithSearchTerms
+    evidenceSummary["exactMatch"] = filesWithExactMatches
+    evidenceSummary["sourceMatch"] = filesWithSourceMatches
 
     # Build up the data to return for the report generation
     reportData = {}
     reportData["reportName"] = reportName
     reportData["projectName"] = projectName
     reportData["fileEvidence"] = fileEvidence
+    reportData["evidenceSummary"] = evidenceSummary
     
     
     return reportData
