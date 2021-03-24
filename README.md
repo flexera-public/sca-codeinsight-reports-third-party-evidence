@@ -1,6 +1,6 @@
-# sca-codeinsight-reports-third-party-indicators
+# sca-codeinsight-reports-third-party-evidence
 
-The sca-codeinsight-reports-third-party-indicators repository is a example report for Revenera's Code Insight product. This report allows a user to report on the current evidence found within the project such as
+The sca-codeinsight-reports-third-party-evidence repository is a example report for Revenera's Code Insight product. This report allows a user to report on the current evidence found within the project such as
  
 - Copyright
 - License
@@ -13,6 +13,8 @@ The sca-codeinsight-reports-third-party-indicators repository is a example repor
 This repository utilizes the following via CDN for the creation of the report artifacts.
 - [Bootstrap](https://getbootstrap.com/)
 - [DataTables](https://datatables.net/)
+- [chart.js](https://www.chartjs.org/)
+
 
 
 ## Prerequisites
@@ -22,7 +24,7 @@ This repository utilizes the following via CDN for the creation of the report ar
   
 |Repository Tag | Minimum Code Insight Release  |
 |--|--|
-|1.0.x |2021R1  |
+|1.0.x |2021R2  |
 
 
 
@@ -49,7 +51,7 @@ For registration purposes update the **baseURL** and **adminAuthToken** values w
 
 ## Usage
 
-This report is executed directly from within Revenera's Code Insight product. From the summary page of each Code Insight project it is possible to *generate* the **Third Party Indicators Report** via the Custom Report Framework. Once this report is selected the second project for comparison can be selected
+This report is executed directly from within Revenera's Code Insight product. From the summary page of each Code Insight project it is possible to *generate* the **Third Party Evidence Report** via the Custom Report Framework. Once this report is selected the second project for comparison can be selected
 
 The Code Insight Custom Report Framework will provide the following to the custom report when initiated:
 
