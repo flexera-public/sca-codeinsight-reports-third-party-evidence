@@ -46,44 +46,42 @@ parser.add_argument("-baseURL", "--baseURL", help="Code Insight Core Server Prot
 #----------------------------------------------------------------------#
 def main():
 
-    reportName = "Third Party Inidcators Report"
-    logger.info("Creating %s - %s" %(reportName, _version.__version__))
-    print("Creating %s - %s" %(reportName, _version.__version__))
+	reportName = "Third Party Evidence Report"
+	logger.info("Creating %s - %s" %(reportName, _version.__version__))
+	print("Creating %s - %s" %(reportName, _version.__version__))
 
-    # See what if any arguments were provided
-    args = parser.parse_args()
-    projectID = args.projectID
-    reportID = args.reportID
-    authToken = args.authToken
-    baseURL = args.baseURL
-    reportOptions = []
+	# See what if any arguments were provided
+	args = parser.parse_args()
+	projectID = args.projectID
+	reportID = args.reportID
+	authToken = args.authToken
+	baseURL = args.baseURL
+	reportOptions = []
 
-    logger.debug("Custom Report Provided Arguments:")	
-    logger.debug("    projectID:  %s" %projectID)	
-    logger.debug("    reportID:   %s" %reportID)	
-    logger.debug("    baseURL:  %s" %baseURL)	
+	logger.debug("Custom Report Provided Arguments:")	
+	logger.debug("    projectID:  %s" %projectID)	
+	logger.debug("    reportID:   %s" %reportID)	
+	logger.debug("    baseURL:  %s" %baseURL)	
 
-    reportData = report_data.gather_data_for_report(baseURL, projectID, authToken, reportName, reportOptions)
-    print("    Report data has been collected")
-    reports = report_artifacts.create_report_artifacts(reportData)
-    print("    Report artifacts have been created")
+	reportData = report_data.gather_data_for_report(baseURL, projectID, authToken, reportName, reportOptions)
+	print("    Report data has been collected")
+	reports = report_artifacts.create_report_artifacts(reportData)
+	print("    Report artifacts have been created")
+	uploadZipfile = create_report_zipfile(reports, reportName)
+	print("    Upload zip file creation completed")
+	CodeInsight_RESTAPIs.project.upload_reports.upload_project_report_data(baseURL, projectID, reportID, authToken, uploadZipfile)
+	print("    Report uploaded to Code Insight")
 
-    uploadZipfile = create_report_zipfile(reports, reportName)
-    print("    Upload zip file creation completed")
-    CodeInsight_RESTAPIs.project.upload_reports.upload_project_report_data(baseURL, projectID, reportID, authToken, uploadZipfile)
-    print("    Report uploaded to Code Insight")
-    
 	#########################################################
 	# Remove the file since it has been uploaded to Code Insight
-    try:
-        os.remove(uploadZipfile)
-    except OSError:
-        logger.error("Error removing %s" %uploadZipfile)
-        print("Error removing %s" %uploadZipfile)
+	try:
+		os.remove(uploadZipfile)
+	except OSError:
+		logger.error("Error removing %s" %uploadZipfile)
+		print("Error removing %s" %uploadZipfile)
 
-    logger.info("Completed creating %s" %reportName)
-    print("Completed creating %s" %reportName)
-
+	logger.info("Completed creating %s" %reportName)
+	print("Completed creating %s" %reportName)
 
 #---------------------------------------------------------------------#
 def create_report_zipfile(reportOutputs, reportName):

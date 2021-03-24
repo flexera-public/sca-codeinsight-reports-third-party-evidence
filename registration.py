@@ -20,7 +20,7 @@ import CodeInsight_RESTAPIs.reports.delete_report
 
 #####################################################################################################
 #  Report Details
-reportName = "Third Party Indicators Report"  # What is the name to be shown within Code Insight?
+reportName = "Third Party Evidence Report"  # What is the name to be shown within Code Insight?
 enableProjectPickerValue = "false"   # true if a second project can be used within this report
 reportOptions = []
 
