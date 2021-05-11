@@ -67,7 +67,10 @@ def main():
 	print("    Report data has been collected")
 	reports = report_artifacts.create_report_artifacts(reportData)
 	print("    Report artifacts have been created")
-	uploadZipfile = create_report_zipfile(reports, reportName)
+
+	projectName = reportData["projectName"].replace(" - ", "-").replace(" ", "_")
+
+	uploadZipfile = create_report_zipfile(reports, reportName, projectName)
 	print("    Upload zip file creation completed")
 	CodeInsight_RESTAPIs.project.upload_reports.upload_project_report_data(baseURL, projectID, reportID, authToken, uploadZipfile)
 	print("    Report uploaded to Code Insight")
@@ -84,11 +87,11 @@ def main():
 	print("Completed creating %s" %reportName)
 
 #---------------------------------------------------------------------#
-def create_report_zipfile(reportOutputs, reportName):
+def create_report_zipfile(reportOutputs, reportName, projectName):
 	logger.info("Entering create_report_zipfile")
 
 	# create a ZipFile object
-	allFormatZipFile = reportName.replace(" ", "_") + ".zip"
+	allFormatZipFile = projectName + "-" + reportName.replace(" ", "_") + ".zip"
 	allFormatsZip = zipfile.ZipFile(allFormatZipFile, 'w', zipfile.ZIP_DEFLATED)
 
 	logger.debug("     	  Create downloadable archive: %s" %allFormatZipFile)
@@ -103,7 +106,7 @@ def create_report_zipfile(reportOutputs, reportName):
 	print("        Downloadable archive created")
 
 	# Now create a temp zipfile of the zipfile along with the viewable file itself
-	uploadZipflle = reportName + "_upload.zip"
+	uploadZipflle = projectName.replace(" ", "_") + "-" + reportName.replace(" ", "_") + "_upload.zip"
 	print("        Create zip archive containing viewable and downloadable archive for upload: %s" %uploadZipflle)
 	logger.debug("    Create zip archive containing viewable and downloadable archive for upload: %s" %uploadZipflle)
 	zipToUpload = zipfile.ZipFile(uploadZipflle, 'w', zipfile.ZIP_DEFLATED)
