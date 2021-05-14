@@ -51,7 +51,7 @@ For registration purposes update the **baseURL** and **adminAuthToken** values w
 
 ## Usage
 
-This report is executed directly from within Revenera's Code Insight product. From the summary page of each Code Insight project it is possible to *generate* the **Third Party Evidence Report** via the Custom Report Framework. Once this report is selected the second project for comparison can be selected
+This report is executed directly from within Revenera's Code Insight product. From the project reports tab each Code Insight project it is possible to *generate* the **Third Party Evidence Report** via the Custom Report Framework.
 
 The Code Insight Custom Report Framework will provide the following to the custom report when initiated:
 
