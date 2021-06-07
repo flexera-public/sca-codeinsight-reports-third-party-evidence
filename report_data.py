@@ -87,6 +87,7 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
     # Build up the data to return for the report generation
     reportData = {}
     reportData["reportName"] = reportName
+    reportData["projectID"] = projectID
     reportData["projectName"] = projectName
     reportData["fileEvidence"] = fileEvidence
     reportData["evidenceSummary"] = evidenceSummary
