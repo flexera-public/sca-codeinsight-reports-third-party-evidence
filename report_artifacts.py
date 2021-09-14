@@ -332,12 +332,12 @@ def generate_evidence_summary_chart(html_ptr, evidenceSummary):
 
 
         ''' %(evidenceSummary["totalScannedFiles"],
-            evidenceSummary["copyright"], str(int(evidenceSummary["copyright"]/evidenceSummary["totalScannedFiles"]*100)),
-            evidenceSummary["license"], str(int(evidenceSummary["license"]/evidenceSummary["totalScannedFiles"]*100)),
-            evidenceSummary["emailURL"], str(int(evidenceSummary["emailURL"]/evidenceSummary["totalScannedFiles"]*100)),
-            evidenceSummary["searchTerm"], str(int(evidenceSummary["searchTerm"]/evidenceSummary["totalScannedFiles"]*100)),
-            evidenceSummary["exactMatch"], str(int(evidenceSummary["exactMatch"]/evidenceSummary["totalScannedFiles"]*100)),
-            evidenceSummary["sourceMatch"], str(int(evidenceSummary["sourceMatch"]/evidenceSummary["totalScannedFiles"]*100)),
+            evidenceSummary["copyright"], evidenceSummary["filesWithCopyrightPercentage"],
+            evidenceSummary["license"], evidenceSummary["filesWithLicensePercentage"],
+            evidenceSummary["emailURL"], evidenceSummary["filesWithemailURLPercentage"],
+            evidenceSummary["searchTerm"], evidenceSummary["filesWithSearchTermPercentage"],
+            evidenceSummary["exactMatch"], evidenceSummary["filesWithExactMatchPercentage"],
+            evidenceSummary["sourceMatch"], evidenceSummary["filesWithSourceMatchPercentage"],
             evidenceSummary["totalScannedFiles"],
             evidenceSummary["copyright"], 
             evidenceSummary["license"], 

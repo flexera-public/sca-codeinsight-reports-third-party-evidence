@@ -84,6 +84,23 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
     evidenceSummary["exactMatch"] = filesWithExactMatches
     evidenceSummary["sourceMatch"] = filesWithSourceMatches
 
+    #Where there any files scanned?
+    if totalFiles > 0:
+        evidenceSummary["filesWithCopyrightPercentage"] = str(filesWithCopyrights/totalFiles) * 100
+        evidenceSummary["filesWithLicensePercentage"] = str(filesWithLicenses/totalFiles) * 100
+        evidenceSummary["filesWithemailURLPercentage"] = str(filesWithEmailURL/totalFiles) * 100
+        evidenceSummary["filesWithSearchTermPercentage"] = str(filesWithSearchTerms/totalFiles) * 100
+        evidenceSummary["filesWithExactMatchPercentage"] = str(filesWithExactMatches/totalFiles) * 100
+        evidenceSummary["filesWithSourceMatchPercentage"] = str(filesWithSourceMatches/totalFiles) * 100
+
+    else:
+        evidenceSummary["filesWithCopyrightPercentage"] = 0
+        evidenceSummary["filesWithLicensePercentage"] = 0
+        evidenceSummary["filesWithemailURLPercentage"] = 0
+        evidenceSummary["filesWithSearchTermPercentage"] = 0
+        evidenceSummary["filesWithExactMatchPercentage"] = 0
+        evidenceSummary["filesWithSourceMatchPercentage"] = 0
+
     # Build up the data to return for the report generation
     reportData = {}
     reportData["reportName"] = reportName
