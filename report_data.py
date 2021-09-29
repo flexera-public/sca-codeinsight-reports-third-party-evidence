@@ -84,14 +84,14 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
     evidenceSummary["exactMatch"] = filesWithExactMatches
     evidenceSummary["sourceMatch"] = filesWithSourceMatches
 
-    #Where there any files scanned?
+    # Where there any files scanned?
     if totalFiles > 0:
-        evidenceSummary["filesWithCopyrightPercentage"] = str(filesWithCopyrights/totalFiles) * 100
-        evidenceSummary["filesWithLicensePercentage"] = str(filesWithLicenses/totalFiles) * 100
-        evidenceSummary["filesWithemailURLPercentage"] = str(filesWithEmailURL/totalFiles) * 100
-        evidenceSummary["filesWithSearchTermPercentage"] = str(filesWithSearchTerms/totalFiles) * 100
-        evidenceSummary["filesWithExactMatchPercentage"] = str(filesWithExactMatches/totalFiles) * 100
-        evidenceSummary["filesWithSourceMatchPercentage"] = str(filesWithSourceMatches/totalFiles) * 100
+        evidenceSummary["filesWithCopyrightPercentage"] = str(round((filesWithCopyrights/totalFiles * 100), 2))
+        evidenceSummary["filesWithLicensePercentage"] = str(round((filesWithLicenses/totalFiles * 100), 2))
+        evidenceSummary["filesWithemailURLPercentage"] = str(round((filesWithEmailURL/totalFiles * 100), 2))
+        evidenceSummary["filesWithSearchTermPercentage"] = str(round((filesWithSearchTerms/totalFiles * 100), 2))
+        evidenceSummary["filesWithExactMatchPercentage"] = str(round((filesWithExactMatches/totalFiles * 100), 2))
+        evidenceSummary["filesWithSourceMatchPercentage"] = str(round((filesWithSourceMatches/totalFiles * 100), 2))
 
     else:
         evidenceSummary["filesWithCopyrightPercentage"] = 0
