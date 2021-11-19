@@ -33,17 +33,13 @@ def generate_html_report(reportData):
     logoImageFile =  os.path.join(scriptDirectory, "report_branding/images/logo_reversed.svg")
     iconFile =  os.path.join(scriptDirectory, "report_branding/images/favicon-revenera.ico")
 
-    logger.debug("cssFile: %s" %cssFile)
-    logger.debug("imageFile: %s" %logoImageFile)
-    logger.debug("iconFile: %s" %iconFile)
-
     #########################################################
     #  Encode the image files
     encodedLogoImage = encodeImage(logoImageFile)
     encodedfaviconImage = encodeImage(iconFile)
 
     htmlFile = reportFileNameBase + ".html"
-    logger.debug("htmlFile: %s" %htmlFile)
+    logger.debug("        htmlFile: %s" %htmlFile)
     
     #---------------------------------------------------------------------------------------------------
     # Create a simple HTML file to display
@@ -73,7 +69,6 @@ def generate_html_report(reportData):
     # Add the contents of the css file to the head block
     try:
         f_ptr = open(cssFile)
-        logger.debug("Adding css file details")
         for line in f_ptr:
             html_ptr.write("            %s" %line)
         f_ptr.close()
@@ -144,6 +139,7 @@ def generate_html_report(reportData):
     html_ptr.write("    <tbody>\n")  
 
     for filePath in sorted(fileEvidence):
+        #logger.info("        Adding evidence for file: %s" %filePath)
 
         filelink = fileEvidence[filePath]["filelink"]
 
@@ -224,7 +220,6 @@ def encodeImage(imageFile):
     # Create base64 variable for branding image
     try:
         with open(imageFile,"rb") as image:
-            logger.debug("Encoding image: %s" %imageFile)
             encodedImage = base64.b64encode(image.read())
             return encodedImage
     except:
