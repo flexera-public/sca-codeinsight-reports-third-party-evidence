@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.1] - 2021-11-17
+### Added
+- Added support for report installer
+### Changed
+- Common report artifact naming
+- Common report timestamp
+- Code Insight URL from server.properties.json file
+- Seperated out artifact creation based on file type
+- README revamped
+### Removed
+- Deleted copyright from report
+
 ## [1.0.5] - 2021-09-29
 ### Added
 - Fix percentage calculations
