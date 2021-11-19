@@ -14,6 +14,7 @@ import os
 import zipfile
 from datetime import datetime
 import json
+import re
 
 import _version
 import report_data
@@ -85,13 +86,20 @@ def main():
 
 	reportData = report_data.gather_data_for_report(baseURL, projectID, authToken, reportName, reportOptions)
 	print("    Report data has been collected")
+
+	projectName = reportData["projectName"]
+	projectNameForFile = re.sub(r"[^a-zA-Z0-9]+", '-', projectName )  # Remove special characters from project name for artifacts
+	reportFileNameBase = projectNameForFile + "-" + str(projectID) + "-" + reportName.replace(" ", "_") + "-" + fileNameTimeStamp
+
 	
 	reportData["fileNameTimeStamp"] = fileNameTimeStamp
+	reportData["reportTimeStamp"] = datetime.strptime(fileNameTimeStamp, "%Y%m%d-%H%M%S").strftime("%B %d, %Y at %H:%M:%S")
+	reportData["reportFileNameBase"] = reportFileNameBase
 
 	reports = report_artifacts.create_report_artifacts(reportData)
 	print("    Report artifacts have been created")
 
-	uploadZipfile = create_report_zipfile(reports, reportName, projectID, fileNameTimeStamp)
+	uploadZipfile = create_report_zipfile(reports, reportFileNameBase)
 	print("    Upload zip file creation completed")
 	CodeInsight_RESTAPIs.project.upload_reports.upload_project_report_data(baseURL, projectID, reportID, authToken, uploadZipfile)
 	print("    Report uploaded to Code Insight")
@@ -108,11 +116,11 @@ def main():
 	print("Completed creating %s" %reportName)
 
 #---------------------------------------------------------------------#
-def create_report_zipfile(reportOutputs, reportName, projectID, fileNameTimeStamp):
+def create_report_zipfile(reportOutputs, reportFileNameBase):
 	logger.info("Entering create_report_zipfile")
+	allFormatZipFile = reportFileNameBase + ".zip"
 
 	# create a ZipFile object
-	allFormatZipFile = reportName.replace(" ", "_") + "-" + projectID  + "-" + fileNameTimeStamp + ".zip"
 	allFormatsZip = zipfile.ZipFile(allFormatZipFile, 'w', zipfile.ZIP_DEFLATED)
 
 
@@ -128,7 +136,7 @@ def create_report_zipfile(reportOutputs, reportName, projectID, fileNameTimeStam
 	print("        Downloadable archive created")
 
 	# Now create a temp zipfile of the zipfile along with the viewable file itself
-	uploadZipflle = reportName.replace(" ", "_") + "-" + str(projectID)  + "-" + fileNameTimeStamp + "_upload.zip"
+	uploadZipflle = allFormatZipFile.replace(".zip", "_upload.zip")
 	print("        Create zip archive containing viewable and downloadable archive for upload: %s" %uploadZipflle)
 	logger.debug("    Create zip archive containing viewable and downloadable archive for upload: %s" %uploadZipflle)
 	zipToUpload = zipfile.ZipFile(uploadZipflle, 'w', zipfile.ZIP_DEFLATED)

@@ -10,8 +10,9 @@ File : report_artifacts.py
 
 import logging
 import os
-from datetime import datetime
 import base64
+
+import _version
 
 logger = logging.getLogger(__name__)
 
@@ -37,8 +38,8 @@ def generate_html_report(reportData):
 
     reportName = reportData["reportName"]
     projectName = reportData["projectName"]
-    projectID = reportData["projectID"] 
-    fileNameTimeStamp = reportData["fileNameTimeStamp"]  
+    reportFileNameBase = reportData["reportFileNameBase"]
+    reportTimeStamp =  reportData["reportTimeStamp"] 
     fileEvidence = reportData["fileEvidence"]
     evidenceSummary = reportData["evidenceSummary"]
    
@@ -62,10 +63,7 @@ def generate_html_report(reportData):
     encodedLogoImage = encodeImage(logoImageFile)
     encodedfaviconImage = encodeImage(iconFile)
 
-    # Grab the current date/time for report date stamp
-    now = datetime.now().strftime("%B %d, %Y at %H:%M:%S")
-
-    htmlFile = reportName.replace(" ", "_") + "-" + str(projectID)  + "-" + fileNameTimeStamp + ".html"
+    htmlFile = reportFileNameBase + ".html"
     logger.debug("htmlFile: %s" %htmlFile)
     
     #---------------------------------------------------------------------------------------------------
@@ -193,10 +191,11 @@ def generate_html_report(reportData):
     #---------------------------------------------------------------------------------------------------
     html_ptr.write("<!-- BEGIN FOOTER -->\n")
     html_ptr.write("<div class='report-footer'>\n")
-    html_ptr.write("  <div style='float:left'>&copy; %s Flexera</div>\n" %fileNameTimeStamp[0:4])
-    html_ptr.write("  <div style='float:right'>Generated on %s</div>\n" %now)
+    html_ptr.write("  <div style='float:right'>Generated on %s</div>\n" %reportTimeStamp)
+    html_ptr.write("<br>\n")
+    html_ptr.write("  <div style='float:right'>Report Version: %s</div>\n" %_version.__version__)
     html_ptr.write("</div>\n")
-    html_ptr.write("<!-- END FOOTER -->\n")   
+    html_ptr.write("<!-- END FOOTER -->\n")  
 
     html_ptr.write("</div>\n")    
 
