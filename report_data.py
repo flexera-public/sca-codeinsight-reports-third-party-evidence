@@ -20,7 +20,6 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
  
     projectInformation = CodeInsight_RESTAPIs.project.get_project_information.get_project_information_summary(baseURL, projectID, authToken)
     projectName = projectInformation["name"]
-    totalFiles = projectInformation["totalFiles"]
 
     fileEvidence = {} # Dict to hold evidience information for each file (claimable or not)
     filesWithCopyrights = 0
@@ -32,6 +31,11 @@ def gather_data_for_report(baseURL, projectID, authToken, reportName, reportOpti
 
     # Get the evidence gathered
     projectEvidence = CodeInsight_RESTAPIs.project.get_project_evidence.get_project_evidence(baseURL, projectID, authToken)
+
+    # Use the evidence response to count total scanned files so that both server-scanned
+    # and remote-scanned files are included.  projectInformation["totalFiles"] only reflects
+    # files from local/server scans; for remote-only projects it returns 0.
+    totalFiles = len(projectEvidence["data"])
     for evidence in projectEvidence["data"]:
 
         fileName = evidence["fileName"]

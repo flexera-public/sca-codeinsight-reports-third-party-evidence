@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.2] - 2026-07-15
+### Changed
+- Fix Total Files Scanned count issue for remote scanned projects.
+
 ## [2.2.1] - 2023-10-16
 ### Changed
 - Update API submodule to prep for tomcat upgrade in 2023R4

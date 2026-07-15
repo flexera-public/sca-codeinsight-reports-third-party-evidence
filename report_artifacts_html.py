@@ -293,7 +293,7 @@ def generate_evidence_summary_chart(html_ptr, evidenceSummary):
         var projectEvidenceChart = new Chart(projectEvidence, {
             type: 'horizontalBar',
             data: {
-                labels: ['Total Files Scanned (%s files)', 'Copyleft (%s files - %s%%)', 'License (%s files - %s%%)','Email/URL (%s files - %s%%)','Search Terms (%s files - %s%%)','Exact Match (%s files - %s%%)','Source Match (%s files - %s%%)'],
+                labels: ['Total Files Scanned (%s files)', 'Copyright (%s files - %s%%)', 'License (%s files - %s%%)','Email/URL (%s files - %s%%)','Search Terms (%s files - %s%%)','Exact Match (%s files - %s%%)','Source Match (%s files - %s%%)'],
                 datasets: [{
                     data: [%s, %s, %s, %s, %s, %s, %s],
                     backgroundColor: ["#7F7F7F", "#0099FF", "#33CC33", "#FF02F9", "#02FFFF", "#FF0000", "#FFFF00"]
